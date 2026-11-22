@@ -57,6 +57,10 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           path: dist
+      - name: Restore executable bits
+        # upload-artifact does not preserve file modes, so the Unix
+        # binaries arrive as 0644 and would not run after unzipping.
+        run: find dist -type f -name 'important-task-manager' -exec chmod +x {} +
       - name: Zip each platform build
         run: |
           cd dist
