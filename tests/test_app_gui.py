@@ -776,13 +776,15 @@ def test_export_with_nothing_to_export(window, monkeypatch):
 def test_resolved_font_is_monospaced(qapp):
     """Columns rely on a fixed-pitch font being available everywhere."""
 
-    from PySide6.QtGui import QFont, QFontInfo
+    from PySide6.QtGui import QFont, QFontMetrics
 
     from app import resolve_monospace_font
 
-    info = QFontInfo(QFont(resolve_monospace_font()))
+    metrics = QFontMetrics(QFont(resolve_monospace_font()))
 
-    assert info.fixedPitch()
+    # QFontInfo.fixedPitch() is unreliable on Windows (it reports
+    # False for Consolas), so measure the property that matters.
+    assert metrics.horizontalAdvance("i") == metrics.horizontalAdvance("W")
 
 
 def test_columns_align_in_real_pixels(qapp, window):
