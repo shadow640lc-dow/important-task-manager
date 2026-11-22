@@ -51,7 +51,12 @@ from config import (
     SETTINGS_ORG,
 )
 from database import initialize_database
-from dialogs import EditTaskDialog, setup_due_widgets, widget_due_values
+from dialogs import (
+    AboutDialog,
+    EditTaskDialog,
+    setup_due_widgets,
+    widget_due_values,
+)
 from scheduler import check_due_tasks
 from tasks import (
     complete_recurring_task,
@@ -595,6 +600,10 @@ class ImportantTaskManager(QMainWindow):
         self.refresh_button.clicked.connect(self.load_tasks)
         self.refresh_button.setToolTip("Reload from the database (F5)")
 
+        self.about_button = QPushButton("ABOUT")
+        self.about_button.clicked.connect(self.show_about)
+        self.about_button.setToolTip("Version and project link")
+
         buttons.addWidget(self.complete_button)
         buttons.addWidget(self.edit_button)
         buttons.addWidget(self.reopen_button)
@@ -603,6 +612,7 @@ class ImportantTaskManager(QMainWindow):
         buttons.addWidget(self.clear_button)
         buttons.addWidget(self.export_button)
         buttons.addWidget(self.refresh_button)
+        buttons.addWidget(self.about_button)
 
         root.addLayout(buttons)
 
@@ -1088,6 +1098,11 @@ class ImportantTaskManager(QMainWindow):
         self.statusBar().showMessage(
             f"Exported {len(self.all_tasks)} task(s) to {path}", 6000
         )
+
+    def show_about(self):
+        dialog = AboutDialog(parent=self)
+        dialog.setStyleSheet(self.styleSheet())
+        dialog.exec()
 
     # ------------------------------------------------------------------
     # Focus helpers for shortcuts

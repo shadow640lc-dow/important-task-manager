@@ -18,6 +18,7 @@ your own machine. No account, no cloud, no network calls.
 - Edit every field of an existing task, reopen completed tasks, bulk-clear
   completed tasks
 - Export your whole list to JSON or CSV
+- About dialog with the app version and a link to the project page
 - Window size, filter and reminder settings persist between launches
 - Keyboard-driven: `Ctrl+N`, `Ctrl+F`, `F2`, `Delete`, `F5`
 

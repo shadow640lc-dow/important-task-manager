@@ -22,6 +22,7 @@ from PySide6.QtWidgets import QApplication, QMessageBox
 
 import database
 from app import FILTER_LABELS, TASK_LIST_HEADER, ImportantTaskManager
+from config import APP_VERSION, PROJECT_URL
 from database import initialize_database
 from tasks import complete_task, create_task, get_task, list_tasks
 
@@ -768,6 +769,44 @@ def test_export_with_nothing_to_export(window, monkeypatch):
     window.export_tasks()
 
     assert "Nothing to export" in window.statusBar().currentMessage()
+
+
+# ----------------------------------------------------------------------
+# About
+# ----------------------------------------------------------------------
+def test_about_dialog_shows_version_and_project_link(window):
+    from PySide6.QtWidgets import QLabel
+
+    from dialogs import AboutDialog
+
+    dialog = AboutDialog(parent=window)
+
+    text = "\n".join(
+        label.text() for label in dialog.findChildren(QLabel)
+    )
+
+    assert APP_VERSION in text
+    assert PROJECT_URL in text
+
+
+def test_about_button_opens_the_dialog(window, monkeypatch):
+    opened = []
+
+    class FakeAbout:
+        def __init__(self, parent=None):
+            opened.append(parent)
+
+        def setStyleSheet(self, style):
+            pass
+
+        def exec(self):
+            return 1
+
+    monkeypatch.setattr("app.AboutDialog", FakeAbout)
+
+    window.about_button.click()
+
+    assert opened == [window]
 
 
 # ----------------------------------------------------------------------

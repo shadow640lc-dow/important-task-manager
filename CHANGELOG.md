@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- About dialog showing the app version and a link to the project page.
+
 ## [1.0.0] - 2026-11-21
 
 First public release.

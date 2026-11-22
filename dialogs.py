@@ -1,6 +1,6 @@
 """Dialogs used by the Important Task Manager GUI."""
 
-from PySide6.QtCore import QDate, QTime
+from PySide6.QtCore import QDate, Qt, QTime
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
@@ -17,7 +17,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from config import MIN_DUE_YEAR
+from config import APP_NAME, APP_VERSION, MIN_DUE_YEAR, PROJECT_URL
 from tasks import VALID_PRIORITIES
 
 RECURRENCE_CHOICES = [
@@ -182,6 +182,7 @@ class EditTaskDialog(QDialog):
     def accept(self):
         from PySide6.QtWidgets import QMessageBox
 
+
         if not self.title_input.text().strip():
             QMessageBox.warning(self, "Missing Title", "Enter a task title first.")
             return
@@ -196,3 +197,42 @@ class EditTaskDialog(QDialog):
             return
 
         super().accept()
+
+
+class AboutDialog(QDialog):
+    """Show the app version and where to find the project."""
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        self.setWindowTitle("About")
+        self.setModal(True)
+        self.setMinimumWidth(440)
+
+        root = QVBoxLayout(self)
+        root.setSpacing(10)
+
+        name = QLabel(APP_NAME)
+        name.setStyleSheet("font-size: 18px; font-weight: bold;")
+        root.addWidget(name)
+
+        version = QLabel(f"Version {APP_VERSION}")
+        root.addWidget(version)
+
+        description = QLabel(
+            "Local-first task manager with due dates, recurring tasks "
+            "and desktop reminders. All data stays on this computer."
+        )
+        description.setWordWrap(True)
+        root.addWidget(description)
+
+        link = QLabel(f'<a href="{PROJECT_URL}">{PROJECT_URL}</a>')
+        link.setTextFormat(Qt.TextFormat.RichText)
+        link.setOpenExternalLinks(True)
+        root.addWidget(link)
+
+        buttons = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Close
+        )
+        buttons.rejected.connect(self.reject)
+        root.addWidget(buttons)
