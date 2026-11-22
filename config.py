@@ -7,7 +7,7 @@ database, scheduler, notification, and test code safely.
 APP_NAME = "Important Task Manager"
 
 # Shown in the window title and used for packaged releases.
-APP_VERSION = "1.0.0"
+APP_VERSION = "1.1.0"
 
 PROJECT_URL = "https://github.com/shadow640lc-dow/important-task-manager"
 
