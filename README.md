@@ -26,6 +26,9 @@ your own machine. No account, no cloud, no network calls.
 - Python 3.9 or newer
 - A desktop session (X11, Wayland, macOS or Windows)
 - Linux only: `libnotify` for reminders (`sudo apt install libnotify-bin`)
+  plus the usual Qt runtime libraries (`libegl1`, `libxkbcommon0`), which a
+  normal desktop install already has. The Linux binary is built against
+  glibc, so it targets mainstream distributions rather than musl/Alpine.
 
 ## Install
 

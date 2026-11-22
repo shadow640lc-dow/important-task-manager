@@ -4,7 +4,13 @@ import sys
 from datetime import datetime
 
 from PySide6.QtCore import QDate, QSettings, Qt, QTime, QTimer
-from PySide6.QtGui import QColor, QFont, QKeySequence, QShortcut
+from PySide6.QtGui import (
+    QColor,
+    QFont,
+    QFontDatabase,
+    QKeySequence,
+    QShortcut,
+)
 from PySide6.QtWidgets import (
     QApplication,
     QCheckBox,
@@ -37,6 +43,7 @@ from config import (
     GREEN,
     GREEN_DARK,
     GREEN_DIM,
+    MONOSPACE_FONTS,
     MUTED,
     RED,
     REMINDER_INTERVAL_SECONDS,
@@ -206,12 +213,32 @@ def create_settings():
     return QSettings(SETTINGS_ORG, SETTINGS_APP)
 
 
+def resolve_monospace_font():
+    """Return the first installed monospaced family from config.
+
+    Fixed-pitch text is what keeps the task rows aligned, and DejaVu
+    Sans Mono only ships on Linux. Fall back to the platform's fixed
+    font when none of the preferred families are installed.
+    """
+
+    available = set(QFontDatabase.families())
+
+    for family in MONOSPACE_FONTS:
+        if family in available:
+            return family
+
+    return QFontDatabase.systemFont(
+        QFontDatabase.SystemFont.FixedFont
+    ).family()
+
+
 class ImportantTaskManager(QMainWindow):
     def __init__(self):
         super().__init__()
 
         initialize_database()
 
+        self.mono_family = resolve_monospace_font()
         self.settings = create_settings()
         self.all_tasks = []
         self.overdue_ids = set()
@@ -223,7 +250,7 @@ class ImportantTaskManager(QMainWindow):
             QMainWindow, QWidget {{
                 background-color: {BLACK};
                 color: {GREEN};
-                font-family: "DejaVu Sans Mono";
+                font-family: "{self.mono_family}";
             }}
 
             QLabel {{
@@ -362,7 +389,9 @@ class ImportantTaskManager(QMainWindow):
         header = QHBoxLayout()
 
         title = QLabel("IMPORTANT TASK MANAGER")
-        title.setFont(QFont("DejaVu Sans Mono", 26, QFont.Weight.Bold))
+        title.setFont(
+            QFont(self.mono_family, 26, QFont.Weight.Bold)
+        )
         title.setStyleSheet(f"color: {GREEN}; padding: 6px;")
 
         self.reminder_toggle = QCheckBox("REMINDERS")

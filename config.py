@@ -26,6 +26,16 @@ MIN_DUE_YEAR = 2000
 SETTINGS_ORG = "ImportantTaskManager"
 SETTINGS_APP = "ImportantTaskManager"
 
+# Monospaced families tried in order. Fixed-pitch text is what keeps
+# the task rows' columns aligned; DejaVu Sans Mono is Linux-only.
+MONOSPACE_FONTS = [
+    "DejaVu Sans Mono",
+    "Menlo",
+    "Consolas",
+    "Liberation Mono",
+    "Courier New",
+]
+
 # Terminal-green palette.
 GREEN = "#00ff66"
 GREEN_DIM = "#00aa44"

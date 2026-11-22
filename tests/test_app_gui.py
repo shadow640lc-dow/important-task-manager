@@ -773,6 +773,18 @@ def test_export_with_nothing_to_export(window, monkeypatch):
 # ----------------------------------------------------------------------
 # Rendering fidelity
 # ----------------------------------------------------------------------
+def test_resolved_font_is_monospaced(qapp):
+    """Columns rely on a fixed-pitch font being available everywhere."""
+
+    from PySide6.QtGui import QFont, QFontInfo
+
+    from app import resolve_monospace_font
+
+    info = QFontInfo(QFont(resolve_monospace_font()))
+
+    assert info.fixedPitch()
+
+
 def test_columns_align_in_real_pixels(qapp, window):
     """Header and rows must share column boundaries in device pixels.
 

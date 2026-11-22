@@ -342,6 +342,10 @@ def test_complete_already_completed_recurring_task():
 def test_send_notification(monkeypatch):
     from notifications import send_notification
 
+    # This test covers the Linux backend specifically; the other
+    # platforms have their own tests in test_deployment.py.
+    monkeypatch.setattr("notifications.sys.platform", "linux")
+
     calls = []
 
     def fake_run(command, check, **kwargs):
@@ -369,6 +373,8 @@ def test_send_notification(monkeypatch):
 
 def test_send_notification_critical(monkeypatch):
     from notifications import send_notification
+
+    monkeypatch.setattr("notifications.sys.platform", "linux")
 
     calls = []
 
