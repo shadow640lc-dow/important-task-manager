@@ -1,0 +1,8 @@
+# Runtime
+PySide6>=6.5,<7
+
+# Tests
+pytest>=7.4
+
+# Linting (see ruff.toml - run with: ruff check .)
+ruff>=0.6

@@ -1,0 +1,26 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Personal task data - never commit someone's real task list
+data/
+*.db
+*.db-wal
+*.db-shm
+*.sqlite3
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

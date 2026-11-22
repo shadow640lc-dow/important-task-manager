@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Important Task Manager
+GenericName=Task Manager
+Comment=Local-first task manager with due dates, recurring tasks and reminders
+Exec=important-task-manager
+Icon=important-task-manager
+Terminal=false
+Categories=Utility;Office;
+Keywords=task;todo;reminder;productivity;
+StartupNotify=true
+StartupWMClass=important-task-manager

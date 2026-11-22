@@ -1,0 +1,31 @@
+# Lint configuration for Important Task Manager.
+#
+# Run with:  ruff check .
+#
+# Ruff's default rule set applies; the two families below are
+# excluded deliberately. Everything else in the default set must
+# stay clean.
+
+[lint]
+ignore = [
+    # DTZ001 / DTZ005 / DTZ007 - timezone-aware datetimes.
+    #
+    # This app stores local wall-clock time as plain TEXT in SQLite
+    # (due_date "YYYY-MM-DD", due_time "HH:MM", created_at/completed_at
+    # as naive ISO strings), which is what a desktop reminder app
+    # wants. Making these aware would change the stored format,
+    # break the SQL string comparisons in get_overdue_tasks() and
+    # is_task_due_for_notification(), and invalidate existing task
+    # data.
+    "DTZ001",
+    "DTZ005",
+    "DTZ007",
+
+    # BLE001 - catch blind Exception.
+    #
+    # Every occurrence sits on a UI, database, or notification
+    # boundary where a failure must surface as a dialog or status
+    # message instead of tearing the window down (see the comment
+    # at each site).
+    "BLE001",
+]
